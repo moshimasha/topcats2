@@ -1,0 +1,79 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+
+
+<style>
+  /* Style the hidden form  */
+  #myForm {
+    display: none;
+    position: fixed; /* Stay in place when scrolling */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  /* Form content center */
+  .form-content {
+    background-color: white;
+    margin: 15% auto; /* 15% from top & center */
+    padding: 20px;
+    border: 1px solid #f1f1f1;
+    width: 30%;
+    text-align: center;
+  }
+
+  /* Close button inside form */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
+
+
+
+    <h1>Recipes</h1>
+    <a href="">Add a recipe</a>
+<!--TODO: recipe addition form-->
+<!-- display form when button click-->
+
+
+
+
+<button onclick="document.getElementById('myForm').style.display = 'block'">Open Form</button>
+
+<div id="myForm" class="form-content">
+  <span class="close" onclick="document.getElementById('myForm').style.display = 'none'">&times;</span>
+  <form action="/submit" method="post">  <label for="fname">Enter your name:</label>
+    <input type="text" id="fname" name="fname" placeholder="Your Name"><br><br>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+
+
+
+    {% if recipes_list %}
+    <ul>
+      {% for recipes in recipes_list %}
+      <li><a href="{% url 'recipe-detail' recipes.pk %}">{{ recipes.name }}</a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>All clear!</p>
+    {% endif %}
+{% endblock %}

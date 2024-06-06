@@ -1,19 +1,15 @@
+{% extends "base_generic.html" %}
 
-{% load static %}
-{% load socialaccount %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1 style="text-align: center;"> My google OAuth Project </h1>
-    {% if user.is_authenticated %}
-    <p>Welcome. You are logged in as {{user.username}} </p>
-    {% else %}
-    <a href="{% provider_login_url 'google' %}">Login with Google</a>
-    {% endif %}
-</body>
-</html>
+{% block content %}
+  <h1>Recipe Nook Home</h1>
+  <p>
+    A home for all your recipes! Save, share, and plan.
+  </p>
+  <h2>How to use</h2>
+  <p>You can save recipes for your personal use or join/create a Group. Members of each
+     Group can all view and edit each other's recipes. The following is a comprehensive list of features:</p>
+     <ul>
+        <li>Edit servings and add recipes to a grocery list. Find an approximate price point of the grocery list to make all selected recipes.</li>
+        <li>Convert recipes from a website into a clean format.</li>
+    </ul>
+{% endblock %}
