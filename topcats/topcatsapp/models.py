@@ -1,12 +1,12 @@
 
 from django.contrib import admin
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.db import models
 from datetime import date
 
 #models: users, docs, workspaces, workspace_docs
 
-
+'''
 class Users(AbstractUser):
     first_name = models.CharField(max_length=20, blank=True)
     last_name = models.CharField(max_length=20, blank=True)
@@ -40,4 +40,4 @@ class Ingredients(models.Model):
     name = models.CharField(max_length=200)
     recipeid = models.ForeignKey(Recipes, on_delete=models.CASCADE)
  
- 
+ '''

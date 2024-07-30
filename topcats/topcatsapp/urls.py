@@ -1,10 +1,11 @@
-from django.urls import path
+from django.contrib import admin
+from django.urls import path, include
+from .views import CreateUserView
 from . import views
+from .views import FileUploadView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path("", views.home, name="home"),
-    path("groups/", views.GroupsListView.as_view(), name="groups"),
-    path('recipes/', views.RecipesListView.as_view(), name='recipes'),
-    path('recipe/<int:pk>', views.recipe_detail_view, name='recipe-detail'),
+    path('upload/', FileUploadView.as_view(), name='file-upload'),
 ]
 
