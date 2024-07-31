@@ -7,6 +7,7 @@ import Upload from "./pages/Upload"
 import NotFound from "./pages/NotFound"
 import LearningView from "./pages/LearningView"
 import ProtectedRoute from "./components/ProtectedRoute"
+import LibraryView from "./pages/LibraryView"
 
 function Logout() {
   localStorage.clear()
@@ -32,9 +33,10 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/upload" element={<Upload />} />
-        <Route path="/learn" element={<LearningView />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
+        <Route path="/learn" element={<LearningView />} />
+        <Route path="/lib" element={<LibraryView />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>

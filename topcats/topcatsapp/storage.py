@@ -4,20 +4,17 @@ from supabase import create_client, Client
 from storage3.utils import StorageException
 from io import BytesIO
 
-
-
-
 class FileStorage(Storage):
     def __init__(self):
         self.supabase: Client = create_client(settings.AWS_S3_ENDPOINT_URL, settings.SUPABASE_ANON_KEY)
-        self.bucket_name = settings.SUPABASE_BUCKET_NAME                                      
-    def _open(self, name, mode='rb'):
+        self.bucket_name = settings.SUPABASE_BUCKET_NAME   
+    def listall(self):
+        data = self.supabase.storage.from_(settings.SUPABASE_BUCKET_NAME).list()   
+        return data                                
+    def _open(self, name):
        response =  self.supabase.storage.from_(self.bucket_name).download(name)
-       file_obj = BytesIO(response)
-       return file_obj
+       return response
     def _save(self, name, content):
-        print(type(name))
-        print(type(content))
         file_content = content.read()
         response = self.supabase.storage.from_(self.bucket_name).upload(name, file_content, file_options={"content-type":"application/pdf"})
         return response.json()

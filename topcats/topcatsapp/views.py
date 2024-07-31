@@ -1,37 +1,49 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import FileResponse, Http404
 from django.http import Http404
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-#from .models import Recipes
-#from .models import Groups
-#from .models import User_Groups
-
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from .serializers import FileUploadSerializer
-
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .storage import FileStorage
-
-
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from .forms import RecipeConvertForm
 import requests
+import supabase
+
 
 file_storage = FileStorage()
+
+def custom_login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        #user = authenticate(request, username=username, password=password)
+        user = supabase.auth.sign_up({ "email":username, "password": password })
+        if user is not None:
+            login(request, user)
+            return redirect('home')  # Redirect to a success page
+        else:
+            messages.error(request, 'Invalid username or password.')
+    return render(request, 'login.html')
+
 
 '''
 class RecipesDetailView(generic.DetailView):
@@ -118,6 +130,23 @@ class FileUploadView(APIView):
             return Response({'message': 'File uploaded successfully'}, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class LoadView(APIView):
+    def get(self, request, *args, **kwargs):
+        #print(file_storage.listall())
+        return Response(file_storage.listall())
+
+class LearnView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            file_name = request.data['file']
+            file = file_storage.open(file_name)
+            # Save the file or handle it as needed
+            response = FileResponse(file, as_attachment=True, filename=file_name)
+            return response
+        except FileNotFoundError:
+            raise Http404("File not found")
 '''
 def recipe_detail_view(request, pk):
     try:

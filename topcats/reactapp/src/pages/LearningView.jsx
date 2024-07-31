@@ -1,21 +1,7 @@
 import { useCallback, useState } from 'react';
 import { pdfjs, Document, Page } from 'react-pdf';
 
-
-
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url,
-).toString();
-
-
-
-
-
-export default function LearningView() {
-    const [file, setFile] = useState('./sample.pdf');
-
+export default function LearningView({file}) {
 
     return (
         <div >
@@ -24,7 +10,7 @@ export default function LearningView() {
             </header>
             <div class="embed-responsive" style={{ height: "100vh" }}>
                 <embed
-                    src="https://beej.us/guide/bgnet/pdf/bgnet_usl_c_1.pdf"
+                    src={file}
                     type="application/pdf"
                     width="100%"
                     height="100%"
