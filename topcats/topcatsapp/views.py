@@ -25,11 +25,13 @@ from django.urls import reverse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .storage import FileStorage
+
 
 from .forms import RecipeConvertForm
 import requests
-from recipe_scrapers import scrape_html
-from recipe_scrapers import scrape_me
+
+file_storage = FileStorage()
 
 '''
 class RecipesDetailView(generic.DetailView):
@@ -107,15 +109,12 @@ def initial(request):
 
 class FileUploadView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-    print("uploaded")
     def post(self, request, *args, **kwargs):
         file_serializer = FileUploadSerializer(data=request.data)
         if file_serializer.is_valid():
             file = request.data['file']
             # Save the file or handle it as needed
-            with open(file.name, 'wb+') as destination:
-                for chunk in file.chunks():
-                    destination.write(chunk)
+            file_storage.save(file.name, file)
             return Response({'message': 'File uploaded successfully'}, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -27,6 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-0(5j2d07=8c$0ytmw8pnpt0qh#d&ew*v^^edh1h+lrwb41)$3%'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -77,8 +78,8 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-SUPABASE_URL = 'https://joxejwnovuhiewlirbyf.supabase.co'
-SUPABASE_ANON_KEY = "your-anon-key"
+AWS_S3_ENDPOINT_URL = 'https://joxejwnovuhiewlirbyf.supabase.co'
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_API_KEY")
 SUPABASE_BUCKET_NAME = "files"
 
 ROOT_URLCONF = 'topcats.urls'
