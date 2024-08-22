@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
-
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import LearningView from "./LearningView";
+import TopBar from "../components/TopBar";
 
 
 export default function LibraryView() {
@@ -14,10 +15,6 @@ export default function LibraryView() {
         try {
             const response = await axios.get('http://localhost:8000/api/library/'); // Replace with your API endpoint
             const data = response.data;
-
-            // Check for errors in the response
-
-            // Extract names from the data
             const extractedNames = data.map(item => item.name);
             setFiles(extractedNames);
         } catch (err) {
@@ -26,14 +23,17 @@ export default function LibraryView() {
     };
 
     return (
-        <div >
-            <h2>Files List</h2>
-            <ul>
-                {files.map((item, index) => (
-                    <li key={index}>{item}</li>
-                ))}
-            </ul>
-        </div>
+            <div >
+                <TopBar/>
+                <h2>Files List</h2>
+                <ul>
+                    {files.map((item, index) => (
+                        <li key={item}>
+                            <Link to={`/learn/${item}`}>{item}</Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
     );
 
 }

@@ -1,7 +1,13 @@
 import Form from "../components/Form"
+import TopBar from "../components/TopBar";
 
-function Login() {
-    return <Form route="/api/token/" method="login" />
+const Login = () => {
+    return (
+        <div>
+            <TopBar />
+            <Form route="/api/login/" method="login" />
+        </div>
+    );
 }
 
 export default Login

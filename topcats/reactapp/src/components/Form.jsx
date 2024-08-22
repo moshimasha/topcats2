@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api";
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css"
@@ -11,24 +12,20 @@ function Form({ route, method }) {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const name = method === "login" ? "Login" : "Register";
+    const name = method === "login" ? "login" : "register";
 
     const handleSubmit = async (e) => {
-       // console.log('yay')
+        // console.log('yay')
         setLoading(true);
         e.preventDefault();
 
         try {
-            
-            const res = await api.post(route, { username, password })
-            
-            if (method === "login") {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/")
-            } else {
-                navigate("/login")
-            }
+            axios.post("http://localhost:8000/api/" + method +"/" , {
+                username,
+                password
+            }).then(() => {
+                navigate('/upload');
+            })
         } catch (error) {
             alert(error)
         } finally {

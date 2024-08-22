@@ -34,6 +34,8 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
+
+
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.AllowAny",
@@ -57,16 +59,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-   
     'topcatsapp',
-
     'rest_framework',
     'corsheaders',
 
 ]
 
 MIDDLEWARE = [
-   
 
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -81,6 +80,7 @@ MIDDLEWARE = [
 AWS_S3_ENDPOINT_URL = 'https://joxejwnovuhiewlirbyf.supabase.co'
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_API_KEY")
 SUPABASE_BUCKET_NAME = "files"
+GROQ_SECRET = os.getenv("GROQ_SECRET")
 
 ROOT_URLCONF = 'topcats.urls'
 
@@ -102,17 +102,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'topcats.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': os.environ['SUPABASE_USER'],
+        'PASSWORD': os.environ['SUPABASE_PASSWORD'],
+        'HOST': os.environ['SUPABASE_HOST'],
+        'PORT': '6543',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -131,7 +133,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -156,6 +157,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
+ALLOWED_HOSTS = [
+    'localhost'
+]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173'
+]
+
 
 
 SOCIALACCOUNT_PROVIDERS = {

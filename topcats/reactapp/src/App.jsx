@@ -1,4 +1,4 @@
-import react from "react"
+import React from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound"
 import LearningView from "./pages/LearningView"
 import ProtectedRoute from "./components/ProtectedRoute"
 import LibraryView from "./pages/LibraryView"
+import About from "./pages/About"
 
 function Logout() {
   localStorage.clear()
@@ -31,12 +32,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
-        <Route path="/learn" element={<LearningView />} />
-        <Route path="/lib" element={<LibraryView />} />
+        <Route path="/library" element={<LibraryView />} />
+        <Route path="/learn/:fileName" element={<LearningView />} />
+        
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
